@@ -54,7 +54,10 @@ You can change key settings in `Assets/Scripts/GameManager.cs`:
 - `Assets/Scripts/`
   - `PlayerController.cs` — movement, pickup count, win handling.
   - `GameManager.cs` — lives, timer, timeout UI (Continue/New Game), scene reloads.
+  - `Enemy.cs` — script for controlling all obstacles.
+  - `Rotator.cs` —  script for making pickup rorate.
+  - `CameraController.cs` — this script makes the camera follow the player smoothly.
 - `Assets/Prefabs/` — sample prefabs for scene setup.
 - `Assets/Scenes/` — the playable scene(s).
 
-[Click here to view the design](https://www.canva.com/design/DAG26iv9D4M/aCv2jhmzM7PIdRo9lFIP6g/edit?utm_content=DAG26iv9D4M&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+[Click here to view the slide](https://www.canva.com/design/DAG26iv9D4M/aCv2jhmzM7PIdRo9lFIP6g/edit?utm_content=DAG26iv9D4M&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
