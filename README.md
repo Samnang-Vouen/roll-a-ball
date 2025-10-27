@@ -17,7 +17,7 @@ A simple Unity game where you roll a ball, collect all the pickups, and win befo
 
 ## UI
 
-- Count (top-left): shows collected pickups vs total, e.g., `Count: 0 / 12`.
+- Count (top-left): shows collected pickups vs total, e.g., `Count: 0 / 16`.
 - Time (top-right): shows remaining time as `Time: mm:ss`.
 - Lives (top-right): shows remaining lives, e.g., `Lives: 3`.
 - Timeout Panel: appears when time expires with Continue and New Game buttons.
