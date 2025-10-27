@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public Text winText;
 
     [Header("UI")]
-    [Tooltip("Optional: Assign a UI Button from the Canvas. If left empty, a Restart button will be created at runtime when you win.")]
+    [Tooltip("Optional: Assign a UI Button from the Canvas. If left empty, a New Game button will be created at runtime when you win.")]
     [SerializeField] private Button restartButton;
     [Tooltip("Optional: Hotkey to restart after winning.")]
     [SerializeField] private KeyCode restartHotkey = KeyCode.R;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         {
             restartButton.gameObject.SetActive(false);
             restartButton.onClick.RemoveAllListeners();
-            restartButton.onClick.AddListener(Restart);
+            restartButton.onClick.AddListener(NewGame);
         }
 
         // Ensure there is an EventSystem so the button can be clicked
@@ -109,11 +109,16 @@ public class PlayerController : MonoBehaviour
         if (!m_HasWon && m_Count >= m_TotalPickups)
         {
             m_HasWon = true;
+            // Inform the GameManager so the global timer/life system can stop and not show timeout UI
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnPlayerWin();
+            }
             if (winText != null) winText.text = "You Win!";
             if (restartButton == null)
             {
                 restartButton = CreateRestartButton();
-                restartButton.onClick.AddListener(Restart);
+                restartButton.onClick.AddListener(NewGame);
             }
             if (restartButton != null) restartButton.gameObject.SetActive(true);
         }
@@ -154,9 +159,9 @@ public class PlayerController : MonoBehaviour
         trt.anchorMax = Vector2.one;
         trt.offsetMin = Vector2.zero;
         trt.offsetMax = Vector2.zero;
-        var txt = textGO.AddComponent<Text>();
+    var txt = textGO.AddComponent<Text>();
         txt.alignment = TextAnchor.MiddleCenter;
-        txt.text = "Restart";
+    txt.text = "New Game";
         txt.font = GetDefaultFont();
         txt.color = Color.white;
         txt.raycastTarget = false;
@@ -180,7 +185,8 @@ public class PlayerController : MonoBehaviour
     {
         if (m_HasWon && Input.GetKeyDown(restartHotkey))
         {
-            Restart();
+            // Use New Game path to ensure timer resets to 1 minute and lives reset
+            NewGame();
         }
     }
 
@@ -189,5 +195,18 @@ public class PlayerController : MonoBehaviour
         // Reload the current active scene
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+
+    private void NewGame()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnNewGameButton();
+        }
+        else
+        {
+            // Fallback to a simple scene reload if GameManager is not present
+            Restart();
+        }
     }
 }
